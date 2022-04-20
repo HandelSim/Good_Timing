@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="edu.fsu.cs.goodtiming">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -11,14 +13,21 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.GoodTiming">
+        android:theme="@style/Theme.GoodTiming"
+        tools:ignore="Instantiatable">
+        <service
+            android:name=".MediaPlayerService"
+            android:enabled="true"
+            android:exported="false"
+            />
+
         <provider
             android:name=".MyContentProvider"
             android:authorities="edu.fsu.cs.goodtiming.provider"
             android:enabled="true"
             android:exported="true"
             android:readPermission="edu.fsu.cs.goodtiming.permission.READ_PERMISSION"
-            android:writePermission="edu.fsu.cs.goodtiming.permsiion.WRITE_PERMISSION"></provider>
+            android:writePermission="edu.fsu.cs.goodtiming.permsiion.WRITE_PERMISSION" />
 
         <activity
             android:name=".MainActivity"
