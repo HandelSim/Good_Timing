@@ -20,7 +20,7 @@ public class BreakDialog extends DialogFragment {
     private TextView breakTime;
     private boolean timerRunning;
     private CountDownTimer countDownTimer;
-    private static final long START_TIME_IN_MILLIS = 300000;
+    private static final long START_TIME_IN_MILLIS = 300000; //  5 min breaks
     private long timeLeftInMillis = START_TIME_IN_MILLIS;
 
     @Override
@@ -43,10 +43,10 @@ public class BreakDialog extends DialogFragment {
 
         return rootView;
     }
-
+    //starts timer
     private void startTimer(){
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
-            @Override
+            @Override // every tick update textview and set timer left
             public void onTick(long millisUntilFinished) {
                 timeLeftInMillis = millisUntilFinished;
                 updateCountDownText();
@@ -59,7 +59,7 @@ public class BreakDialog extends DialogFragment {
         }.start();
         timerRunning = true;
     }
-
+    //update textview button
     private void updateCountDownText(){
         int minutes = (int)(timeLeftInMillis/1000)/60;
         int seconds = (int)(timeLeftInMillis/1000)%60;

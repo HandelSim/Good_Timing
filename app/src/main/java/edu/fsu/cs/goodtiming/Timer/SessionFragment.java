@@ -345,7 +345,6 @@ public class SessionFragment extends Fragment {
         builder.setAutoCancel(true);
       if (hms.equals("00:00:00")){
             builder.setSound(Settings.System.DEFAULT_NOTIFICATION_URI);
-            //builder.setVibrate(new long[]{1000,1000,1000});
         }
 
         NotificationManagerCompat managerCompat = NotificationManagerCompat.from(getActivity());
