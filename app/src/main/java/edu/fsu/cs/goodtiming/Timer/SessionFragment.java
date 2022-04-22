@@ -108,19 +108,24 @@ public class SessionFragment extends Fragment {
                 String inputHrs = editTextHrs.getText().toString();
                 String inputMins = editTextMins.getText().toString();
                 String inputSecs = editTextSecs.getText().toString();
+                //input validation.
                 if(inputHrs.length() == 0 && inputMins.length() == 0 && inputSecs.length() ==0 ){
                     Toast.makeText(getActivity(), "Fields can not be empty",Toast.LENGTH_LONG).show();
                     return;
                 }
+                // if hrs is empty set to 0
                 if((inputHrs.length() == 0) ){
                     inputHrs = "0";
                 }
+                //if mins is empty set to 0
                 if ((inputMins.length() == 0) ) {
                     inputMins = "0";
                 }
+                //if secs is empty set to 0
                 if (inputSecs.length() == 0){
                     inputSecs = "0";
                 }
+                //convert input into milliseconds
             long millisInput = (Long.parseLong(inputHrs)*3600000) + (Long.parseLong(inputMins)*60000) + (Long.parseLong(inputSecs)*1000);
                 if(millisInput == 0 ){
                     Toast.makeText(getActivity(), "ERROR",Toast.LENGTH_LONG).show();
@@ -139,7 +144,7 @@ public class SessionFragment extends Fragment {
 
 
 
-
+        //start and pause timer
         btnStartPause.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -152,6 +157,7 @@ public class SessionFragment extends Fragment {
             }
         });
 
+        //reset timer
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -159,6 +165,7 @@ public class SessionFragment extends Fragment {
             }
         });
 
+        //break button
         btnBreak.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -169,10 +176,10 @@ public class SessionFragment extends Fragment {
             }
         });
 
-
+        // update timer textview
         updatetimer2();
 
-
+        //media player start and stop service button
         btnPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -192,6 +199,7 @@ public class SessionFragment extends Fragment {
         return rootView;
     }
 
+    //stop service
     private void stopPlayService() {
         try {
             requireActivity().stopService(serviceIntent);
@@ -200,6 +208,7 @@ public class SessionFragment extends Fragment {
         }
     }
 
+    //start service
     private void playAudio() {
         try {
             requireActivity().startService(serviceIntent);
@@ -232,16 +241,18 @@ public class SessionFragment extends Fragment {
         void ShowUserFragment(Bundle bundle);
     }
 
+    //start timer method
     private void startTimer(){
         countDownTimer = new CountDownTimer(timeLeftInMillis, 200) {
             @Override
+            // every tick update textview and notification
             public void onTick(long millisUntilFinished) {
                     timeLeftInMillis = millisUntilFinished;
                     updatetimer2();
                     callNotification();
 
             }
-
+                // on finished update buttons
             @Override
             public void onFinish() {
                     timerRunning = false;
@@ -251,7 +262,7 @@ public class SessionFragment extends Fragment {
                     btnBreak.setVisibility(View.INVISIBLE);
                     callNotification();
             }
-        }.start();
+        }.start(); //start timer and update buttons
         timerRunning = true;
         btnStartPause.setText("Pause");
         btnSet.setVisibility(View.INVISIBLE);
@@ -263,12 +274,14 @@ public class SessionFragment extends Fragment {
 
     }
 
+        // used in set button to set time in timer
     private void setTime(long milliseconds){
         START_TIME_IN_MILLIS = milliseconds;
         resetTimer();
         closeKeyboard();
     }
 
+    //used in pause button to pause timer
     private void pauseTimer(){
         countDownTimer.cancel();
         timerRunning=false;
@@ -277,6 +290,7 @@ public class SessionFragment extends Fragment {
 
     }
 
+    //used in reset button to reset timer and update buttons
     private void resetTimer(){
         timeLeftInMillis = START_TIME_IN_MILLIS;
         updatetimer2();
@@ -289,14 +303,7 @@ public class SessionFragment extends Fragment {
         btnSet.setVisibility(View.VISIBLE);
     }
 
-    private void updateCountDownText(){
-        int hours = (int)(timeLeftInMillis/1000)/3600;
-        int minutes = (int)(timeLeftInMillis/1000)/60;
-        int seconds = (int)(timeLeftInMillis/1000)%60;
-        String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d:%02d",hours, minutes,seconds);
-        textViewTime.setText(timeLeftFormatted);
-    }
-
+    //this method formats textview of timer.
     private void updatetimer2(){
         @SuppressLint("DefaultLocale") String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(timeLeftInMillis),
                 TimeUnit.MILLISECONDS.toMinutes(timeLeftInMillis) % TimeUnit.HOURS.toMinutes(1),
@@ -304,6 +311,7 @@ public class SessionFragment extends Fragment {
         textViewTime.setText(hms);
     }
 
+    //close keyboard. called once set button is pressed
     private void closeKeyboard(){
         View view = getActivity().getCurrentFocus();
         if(view != null){
@@ -312,6 +320,7 @@ public class SessionFragment extends Fragment {
         }
     }
 
+    //notification method
     private void callNotification(){
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity(), "NotificationTimer");
         @SuppressLint("DefaultLocale") String hms = String.format("%02d:%02d:%02d", TimeUnit.MILLISECONDS.toHours(timeLeftInMillis),

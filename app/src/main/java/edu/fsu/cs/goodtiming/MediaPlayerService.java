@@ -1,5 +1,5 @@
 package edu.fsu.cs.goodtiming;
-
+//media player service.
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -57,8 +57,7 @@ public class MediaPlayerService extends Service implements  MediaPlayer.OnComple
             try{
                 player = MediaPlayer.create(getApplication(),R.raw.chill);
                 player.start();
-                //player.setDataSource(getApplication(),Uri.parse("android.resource://" + getApplication().getPackageName() + "/res/raw/wanderingthoughts.mp3"));
-                //player.prepareAsync();
+
             }
             catch (Exception e){
                 Toast.makeText(this, "Error: " + e.getMessage(),Toast.LENGTH_SHORT).show();
@@ -66,6 +65,7 @@ public class MediaPlayerService extends Service implements  MediaPlayer.OnComple
         }
         return START_STICKY;
     }
+
 
     @Override
     public void onDestroy() {

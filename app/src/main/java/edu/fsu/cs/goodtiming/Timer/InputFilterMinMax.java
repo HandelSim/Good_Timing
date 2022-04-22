@@ -1,3 +1,6 @@
+
+//this class sets minimum and maximum input
+//used in input of timer Hours 1-72, minutes 1-60 and seconds 1-60
 package edu.fsu.cs.goodtiming.Timer;
 
 import android.text.InputFilter;
@@ -16,6 +19,7 @@ public class InputFilterMinMax implements InputFilter {
         this.min = Integer.parseInt(min);
         this.max = Integer.parseInt(max);
     }
+
 
     @Override
     public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
